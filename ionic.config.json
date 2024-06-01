@@ -1,0 +1,7 @@
+{
+  "name": "kodi-reactive",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
