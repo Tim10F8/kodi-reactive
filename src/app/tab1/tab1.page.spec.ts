@@ -5,6 +5,8 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1Page } from './tab1.page';
 import { PlayerService } from '../core/services/player.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
 
 describe('Tab1Page', () => {
   let component: Tab1Page;
@@ -12,8 +14,14 @@ describe('Tab1Page', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [Tab1Page],
-      imports: [IonicModule.forRoot(), ExploreContainerComponentModule]
+      declarations: [Tab1Page,PlayerService],
+      imports: [IonicModule.forRoot(),
+           ExploreContainerComponentModule,
+          HttpClientTestingModule,
+         
+         ExploreContainerComponentModule,
+        HttpClientTestingModule,
+        HttpClient],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Tab1Page);

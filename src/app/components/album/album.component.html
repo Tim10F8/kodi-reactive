@@ -1,10 +1,17 @@
-<div class="flex-tile-list">
-  <ion-card  style="background-image: url({{album.thumbnail|assets}});background-size: 100%;" class="tile" *ngFor="let album of albums" appTileHover>
+<div class="flex-tile-list" >
+  <ion-card 
+  class="tile"
+  style="background-image: url({{album.thumbnail|assets : 'scape'}}) , url(assets/site/no_cover.webp)"
+  [style.backgroundSize]="album.thumbnail ? '100%' : 'cover'"
+  *ngFor="let album of albums" appTileHover>
     <ion-card-header>
       <ion-card-title>{{ album.label}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       {{ album.artist|arrayToString }}
+      <p>{{album.thumbnail}}</p>
+      <!--<p>{{ album.year }}</p>-->
+      <img src="{{album.thumbnail|assets}}" alt="">
     </ion-card-content>
     </ion-card>
 </div>

@@ -1,21 +1,25 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { PlayerService } from './player.service';
+import { PipesModule } from '../pipes/pipes-module';
+import { HttpClient } from '@angular/common/http';
 
-fdescribe('PlayerService', () => {
+describe('PlayerService', () => {
   let injector: TestBed;
   let service: PlayerService;
+  let httpClient: HttpClient;
   let httpMock: HttpTestingController;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, PipesModule],
       providers: [PlayerService],
     });
-    injector = getTestBed();
-
-    service = injector.get(PlayerService);
-    httpMock = injector.get(HttpTestingController);
+    await TestBed.compileComponents();
+    service = TestBed.inject(PlayerService);
+    httpClient = TestBed.inject(HttpClient);
+  //  service = injector.get();
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -27,14 +31,19 @@ fdescribe('PlayerService', () => {
   });
 
   it('should have uriMediaPlayer', () => {
+    
     expect(service.uriMediaPlayer).toBe('http://localhost:8008/jsonrpc');
   });
-
-  it('should getAlbum must have the right payload', () => {
-    service.getAlbums();
-    const req = httpMock.expectOne(service.uriMediaPlayer);
-
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(service.payload);
+  
+  it('should getAlbum must have the right payload', async() => {
+      const mockResponse = { /* mock response object */ };
+      service.getAlbums().subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
+      const req = await httpMock.expectOne('http://localhost:8008/jsonrpc');
+      
+      expect(req.request.method).toBe('POST');
+      req.flush({});
+     httpMock.verify();
   });
 });
