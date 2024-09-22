@@ -50,12 +50,12 @@ export class Tab1Page implements OnInit {
     this.wsService.getSocket().subscribe((data) => {
       if (data.method) {
         this.proceesMethod(data);
-        console.log('GET sOCKET method',data.method);
+        //console.log('GET sOCKET method',data.method);
       } else if (Array.isArray(data)) {
         this.appInfo = { ...data[0].result };
         this.playerInfo = { ...data[1].result.item };
         this.ref.markForCheck();
-        console.log('GET sOCKET array',data.length);
+        //console.log('GET sOCKET array',data.length);
       } else {
         console.log('GET sOCKET .id',data);
       }

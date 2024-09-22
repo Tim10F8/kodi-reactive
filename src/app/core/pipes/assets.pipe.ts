@@ -10,7 +10,6 @@ export class AssetsPipe implements PipeTransform {
 
   transform(value: string | undefined, ...args: unknown[]): string {
     let spaceSpecials = false;
-    console.log(args);
     if (args[0]) {
       if (args[0] === 'scape') {
         spaceSpecials = true;        
@@ -23,7 +22,6 @@ export class AssetsPipe implements PipeTransform {
       value = value.substring(0, value.length - 1);
       value = `${value}%2F`;
     } else if(value.includes('image://music@')){     
-      //value = value.replace(/image:\/\//g, '');
       value = value.replace('image://music@%2f', '');      
       value = value.replace(/%3a/g, '%3A');
       value = value.replace(/%20/g, '%2520');

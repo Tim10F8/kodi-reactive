@@ -139,7 +139,9 @@ playListPayload: any ={
     .pipe( result => result);
   } 
 
-  getAlbums() {
+  getAlbums(start: number, end: number) {
+    payloads.album.params.limits.start = start;
+    payloads.album.params.limits.end = end;
     return this.http.post(this.uriMediaPlayer, JSON.stringify(payloads.album))
     .pipe( result => result);
   }

@@ -38,11 +38,12 @@ export const payloads = {
             "fanart"
           ],
           "limits": {
-            "start": 0
+            "start": 1,
+            "end": 10
           },
           "sort": {
-            "method": "dateadded",
-            "order": "descending"
+            "method": "label",
+            "order": "ascending"
           }
         }
       },

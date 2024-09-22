@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Album } from 'src/app/core/models/album';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
 @Component({
   selector: 'app-album',
   templateUrl: './album.component.html',
@@ -9,6 +10,10 @@ import { Album } from 'src/app/core/models/album';
 export class AlbumComponent  implements OnInit, OnDestroy {
 
   albums: Album[] = [];
+  start: number = 1;
+  end: number = 10;
+  limit: number = 20;
+  totalAlbums: number = 9999;
   constructor(private playerService: PlayerService) { }
   ngOnDestroy(): void {
 
@@ -16,15 +21,33 @@ export class AlbumComponent  implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.playerService.getAlbums().subscribe((data: any) => {
-      console.log(data.result.albums);
-      this.albums = data.result.albums.map( (item: any) => {
+    this.end = this.limit;
+    this.getAlbums(this.start, this.end);
+    console.log('albums ngOnInit');
+  }
+  getAlbums(start: number, end: number) {
+    this.playerService.getAlbums(this.start, this.end).subscribe((data: any) => {
+      console.log(data.result);
+      this.totalAlbums = data.result.limits.total;
+      const albumsReecibed = data.result.albums.map( (item: any) => {
         const album:Album = {...item};
         return album;
       }
       )
+      this.albums = [...this.albums, ...albumsReecibed]; 
     })
-    console.log('albums ngOnInit');
   }
-
+  onIonInfinite(event: any) {
+    console.log('onIonInfinite', event);
+    if (this.totalAlbums < this.start) {
+      (event as InfiniteScrollCustomEvent).target.disabled = true;
+      return;
+    }
+    this.start = this.end + 1;
+    this.end = this.end + this.limit
+    this.getAlbums(this.start, this.end);
+    setTimeout(() => {
+      (event as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+  }
 }
