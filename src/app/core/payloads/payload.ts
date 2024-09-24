@@ -123,6 +123,91 @@ export const payloads = {
           "musicbrainzartistid": "",
       },
       "id": 84
+  },albunDetail: {
+    "jsonrpc": "2.0",
+    "method": "AudioLibrary.GetAlbumDetails",
+    "id": "1712437435620",
+    "params": {
+        "albumid": 1824,
+        "properties": [
+            "thumbnail",
+            "playcount",
+            "artistid",
+            "artist",
+            "genre",
+            "albumlabel",
+            "year",
+            "dateadded",
+            "style",
+            "fanart",
+            "mood",
+            "description",
+            "rating",
+            "type",
+            "theme"
+        ]
+    }
+},
+  albumRequestDetail: {
+    "jsonrpc": "2.0",
+    "method": "AudioLibrary.GetAlbumDetails",
+    "id": "1712437435620",
+    "params": {
+      "properties": [
+          "title",
+          "file",
+          "thumbnail",
+          "artist",
+          "artistid",
+          "album",
+          "albumid",
+          "lastplayed",
+          "track",
+          "year",
+          "duration"
+      ],
+      "limits": {
+          "start": 0
+      },
+      "sort": {
+          "method": "track",
+          "order": "ascending",
+          "ignorearticle": true
+      },
+      "filter": {
+          "albumid": 1824
+      }
   }
-    
+},
+requestTracks:{
+  "jsonrpc": "2.0",
+  "method": "AudioLibrary.GetSongs",
+  "id": "1727107266108",
+  "params": {
+      "properties": [
+          "title",
+          "file",
+          "thumbnail",
+          "artist",
+          "artistid",
+          "album",
+          "albumid",
+          "lastplayed",
+          "track",
+          "year",
+          "duration"
+      ],
+      "limits": {
+          "start": 0
+      },
+      "sort": {
+          "method": "track",
+          "order": "ascending",
+          "ignorearticle": true
+      },
+      "filter": {
+          "albumid": 1824
+      }
+  }
+}
 }

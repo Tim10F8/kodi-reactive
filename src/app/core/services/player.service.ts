@@ -149,6 +149,20 @@ playListPayload: any ={
     .pipe( result => result);
   }
 
+  getAlbum(albumId: number) {
+    payloads.albunDetail.params.albumid = albumId;
+    console.log('getAlbum payload', payloads.albunDetail);
+    return this.http.post<{result:any}>(this.uriMediaPlayer, JSON.stringify(payloads.albunDetail))
+    .pipe( result => result);
+  }
+
+  getTracks(albumId: number) {
+    payloads.requestTracks.params.filter.albumid = albumId;
+    console.log('getTracks payload', payloads.requestTracks);
+    return this.http.post<{result:any}>(this.uriMediaPlayer, JSON.stringify(payloads.requestTracks))
+    .pipe( result => result);
+  }
+
   getArtists(start: number, end: number, searchTerm: string = '') {
     payloads.artist.params.limits.start = start;
     payloads.artist.params.limits.end = end;

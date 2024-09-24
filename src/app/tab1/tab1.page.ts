@@ -29,6 +29,7 @@ export class Tab1Page implements OnInit {
   ionViewDidEnter(): void {
     console.log('ionViewDidEnter');
     this.wsService.run();
+    this.activeComponent = this.pages[0];
 
   }
   ionViewDidLeave(): void {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { PlayerService } from 'src/app/core/services/player.service';
@@ -17,6 +17,8 @@ export class ArtistsComponent  implements OnInit, OnDestroy {
   searchTerms: string = '';
   subcription: Subscription | null = null;
   selectedArtist: any = null;
+  @Output() next = new EventEmitter<void>();
+
   constructor(private playerService: PlayerService) { }
   ngOnDestroy(): void {
     if (this.subcription) this.subcription.unsubscribe();
@@ -68,5 +70,9 @@ export class ArtistsComponent  implements OnInit, OnDestroy {
 
   deleteSelected() {
     this.selectedArtist = null;
+  }
+
+  goNext() {
+    this.next.emit();
   }
 }

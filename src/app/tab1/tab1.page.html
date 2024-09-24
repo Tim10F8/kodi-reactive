@@ -8,21 +8,20 @@
   <ion-header collapse="condense"> </ion-header>
   <div class="canvas-player">
     <div class="flex-div">
-      <player-current-track [currentTrack]="playerInfo"></player-current-track>
-      <app-current-play-list
-        [playlist]="playlist"
-        [currentTrackPosition]="appInfo?.position ? appInfo?.position : null"
-      ></app-current-play-list>
+      <div class="flex-col small-col">
+        <player-current-track [currentTrack]="playerInfo"></player-current-track>
+        <app-current-play-list
+          [playlist]="playlist"
+          [currentTrackPosition]="appInfo?.position ? appInfo?.position : null"
+        ></app-current-play-list>
+      </div>
       <div class="selector-category">
         <ion-card>
-          <ion-card-header>
-            <ion-card-title>{{activeComponent}} <ion-button (click)="change()">Play</ion-button></ion-card-title>
-          </ion-card-header>
           <ion-card-content>
             
             <div [ngSwitch]="activeComponent">
-              <div *ngSwitchCase="'artist'"><app-artists></app-artists></div>
-              <div *ngSwitchCase="'album'"><app-album></app-album></div>
+              <div *ngSwitchCase="'artist'"><app-artists (next)="change()"></app-artists></div>
+              <div *ngSwitchCase="'album'"><app-album  (next)="change()"></app-album></div>
               <div *ngSwitchDefault>output2</div>
             </div>
           </ion-card-content>

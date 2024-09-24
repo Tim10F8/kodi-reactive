@@ -1,6 +1,6 @@
 .current {
-    height: 400px;
-    width: 450px;
+    height: 100%;
+    width: inherit;
     &>ion-card{
         background-size: auto 100%;
         background-repeat: no-repeat;

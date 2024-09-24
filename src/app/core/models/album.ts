@@ -10,5 +10,6 @@ export interface Album {
   playcount: number;
   style: string[];
   thumbnail: string;
+  description?: string;
   year: number;
 }

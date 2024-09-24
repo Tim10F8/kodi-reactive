@@ -1,13 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Artists:{{ totalArtist }} </ion-title>
-  </ion-toolbar>
-  <ion-toolbar>
     <ion-searchbar
       show-clear-button="always"
       [debounce]="800"
       (ionInput)="handleSearch($event)"
     ></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="goNext()">Button</ion-button>
+    </ion-buttons>
+    <div>Artists:{{ totalArtist }}</div>
   </ion-toolbar>
 </ion-header>
 <div *ngIf="!selectedArtist">

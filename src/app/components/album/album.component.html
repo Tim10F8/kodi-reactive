@@ -1,34 +1,43 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Albums:{{totalAlbums}}</ion-title>
+    <ion-searchbar
+      show-clear-button="always"
+      [debounce]="800"
+      (ionInput)="handleSearch($event)"
+    ></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="goNext()">Button</ion-button>
+    </ion-buttons>
+    <div>Albums:{{ totalAlbums }}</div>
   </ion-toolbar>
-  <ion-toolbar>
-  <ion-searchbar 
-  show-clear-button="always" 
-  [debounce]="800" 
-  (ionInput)="handleSearch($event)"></ion-searchbar>
-</ion-toolbar>
 </ion-header>
 <div>
-  <ion-content   class="flex-tile-list">
+  <ion-content class="flex-tile-list" *ngIf="!selectedAlbum">
     <ion-list>
-        <ion-card *ngFor="let album of albums"
-          class="tile"
-          style="background-image: url({{album.thumbnail | assets : 'scape'}}) , url(assets/site/no_cover.webp)"
-          [style.backgroundSize]="album.thumbnail ? '100%' : 'cover'"
-          appTileHover>
-          <ion-card-header>
-            <ion-card-title>{{ album.label }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div>
-              {{ album.artist | arrayToString }}
-            </div>
-            <div>
-              {{ album.year }}
-            </div>
-          </ion-card-content>
-        </ion-card>
+      <ion-card
+        *ngFor="let album of albums"
+        class="tile"
+        style="background-image: url({{ album.thumbnail | assets : 'scape' }}) , url(assets/site/no_cover.webp)"
+        [style.backgroundSize]="album.thumbnail ? '100%' : 'cover'"
+        appTileHover
+      >
+        <ion-card-header>
+          <ion-card-title (click)="getAlbum(album)">{{
+            album.label
+          }}</ion-card-title>
+          <ion-card-subtitle
+            >{{ album.artist | arrayToString }} -
+            {{ album.year }}</ion-card-subtitle
+          >
+        </ion-card-header>
+        <ion-card-content>
+          <div class="fav-btn">
+            <ion-button slot="end" shape="round" size="small" color="secondary">
+              <ion-icon slot="icon-only" name="play-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
     </ion-list>
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content
@@ -36,5 +45,47 @@
         loadingSpinner="bubbles"
       ></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+  </ion-content>
+  <ion-content *ngIf="selectedAlbum" [style.height]="'300px'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-note>{{ selectedAlbum.label }}</ion-note>
+          <ion-note>
+            <ion-button (click)="deleteSelected()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-note>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-img
+          src="{{ selectedAlbum.thumbnail | assets : 'scape' }}"
+          alt="{{ selectedAlbum.label }}"
+        ></ion-img>
+        <div>
+          <h3>{{ selectedAlbum.year }} - {{ selectedAlbum.albumlabel }}</h3>
+          <h5>{{ selectedAlbum.genre | arrayToString }}</h5>
+          <p style="font-size: 0.9em">{{ selectedAlbum.description }}</p>
+        </div>
+        <div class="tracks">
+          <ion-list>
+            <ion-item *ngFor="let track of tracks">
+              <ion-button slot="start">
+                <ion-icon slot="icon-only" name="play"></ion-icon>
+              </ion-button>
+              <ion-label>{{ track.label }}</ion-label>
+              <ion-note>{{ track.duration | secondsToStr }}</ion-note>
+              <ion-avatar slot="end">
+                <img
+                  alt="{{ selectedAlbum.label }}"
+                  src="{{ track.thumbnail | assets : 'scape' }}"
+                />
+              </ion-avatar>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </ion-content>
 </div>

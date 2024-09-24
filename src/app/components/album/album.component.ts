@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Album } from 'src/app/core/models/album';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
@@ -10,13 +10,18 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
 export class AlbumComponent  implements OnInit, OnDestroy {
 
   albums: Album[] = [];
+  tracks: any[] = [];
+  totalTracks: number = 0;
   start: number = 1;
   end: number = 10;
   limit: number = 20;
   totalAlbums: number = 9999;
   searchTerms: string = '';
+  selectedAlbum: Album | null = null;
+  @Output() next = new EventEmitter<void>();
   constructor(private playerService: PlayerService) { }
-  ngOnDestroy(): void {
+
+  ngOnDestroy() {
 
     console.log('albums ngOnDestroy');
   }
@@ -60,4 +65,30 @@ export class AlbumComponent  implements OnInit, OnDestroy {
     this.end = this.limit;
     this.getAlbums(this.start, this.end);
   }
+
+  getAlbum(album: Album) {
+    console.log('getAlbum data', album);
+    this.playerService.getAlbum(album.albumid).subscribe((data) => {
+      console.log('getAlbum', data);
+      this.selectedAlbum = data.result.albumdetails;
+      this.getTracks(album);
+  })
+}
+
+deleteSelected() {
+  this.selectedAlbum = null;
+}
+
+getTracks(album: Album) {
+  console.log('getTracks', album);
+  this.playerService.getTracks(album.albumid).subscribe((data) => {
+    console.log('getTracks', data.result.songs);
+    this.tracks = data.result.songs;
+    this.totalTracks = data.result.limits.total;
+  })
+}
+
+goNext() {
+  this.next.emit();
+}
 }
