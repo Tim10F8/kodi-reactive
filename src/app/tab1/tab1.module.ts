@@ -1,4 +1,13 @@
-import { IonicModule } from '@ionic/angular';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonicModule,
+  IonMenu,
+  IonMenuToggle,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { Directive, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +27,6 @@ import { PipesModule } from '../core/pipes/pipes-module';
     ComponentsModule,
     PipesModule,
   ],
-  declarations: [Tab1Page]
+  declarations: [Tab1Page],
 })
 export class Tab1PageModule {}

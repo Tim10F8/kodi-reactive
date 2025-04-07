@@ -1,5 +1,4 @@
 .current {
-    height: 100%;
     width: 100%;
 
     &>ion-card {
@@ -15,24 +14,23 @@
     flex-direction: row;
 
     &>img {
-        height: 100px;
-        width: 100px;
+        height: 50px;
+        width: 50px;
     }
 
     .track-info {
-        height: 100px;
         padding-left: 3%;
         width: inherit;
 
         ion-card-title {
-            font-size: 1em;
+            font-size: .9em;
             font-weight: 900;
         }
 
         ion-card-subtitle {
             color: #e0e0e0;
-            padding-top: 7px;
-            font-size: .8em;
+            line-height: 1.2em;
+            font-size: .7em;
             font-weight: 900;
         }
     }
