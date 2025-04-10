@@ -1,19 +1,15 @@
 <div class="current">
-  <ion-card color="light">
-    <ion-card-content class="artist-card">
-      <div class="current-track">
-          <img
-            class="current-thumb"
-            alt="Silhouette of mountains"
-            src="{{ currentTrack?.thumbnail | assets }}"
-          />
-          <!--style="background-image: url({{currentTrack?.fanart|assets}});"-->
-          <div class="track-info">
-            <ion-card-title>{{ currentTrack?.title }}</ion-card-title>
-            <ion-card-subtitle>{{ currentTrack?.album }}</ion-card-subtitle>
-            <ion-card-subtitle>{{ printArtist() }}</ion-card-subtitle>
-          </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
+  <div class="current-track">
+    <img
+      class="current-thumb"
+      alt="Silhouette of mountains"
+      src="{{ currentTrack?.thumbnail | assets }}"
+    />
+    <!--style="background-image: url({{currentTrack?.fanart|assets}});"-->
+    <div class="track-info">
+      <h1 class="song-name">{{ currentTrack?.title }}</h1>
+      <h2 class="album-name">{{ currentTrack?.album }}</h2>
+      <h3 class="artist-name">{{ printArtist() }}</h3>
+    </div>
+  </div>
 </div>
