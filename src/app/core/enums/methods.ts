@@ -2,6 +2,9 @@ export enum Methods {
   PlaylistOnAdd = 'Playlist.OnAdd',
   PlaylistOnRemove = 'Playlist.OnRemove',
   PlaylistOnClear = 'Playlist.OnClear',
+  PlaylistGetItems = 'Playlist.GetItems',
+  PlayerGetProperties = 'Player.GetProperties',
+  PlayerGetItem = 'Player.GetItem',
   GUiOnDPMSDeactivated = 'GUI.OnDPMSDeactivated',
   GUIOnScreensaverDeactivated = 'GUI.OnScreensaverDeactivated',
   PlayerOnSpeedChanged = 'Player.OnSpeedChanged',
@@ -9,4 +12,6 @@ export enum Methods {
   PlayerOnPlay = 'Player.OnPlay',
   PlayerOnAVStart = 'Player.OnAVStart',
   PlayerOnPropertyChanged = 'Player.OnPropertyChanged',
+  ApplicationSetVolume = 'Application.SetVolume',
+  ApplicationGetProperties = 'Application.GetProperties',
 }
