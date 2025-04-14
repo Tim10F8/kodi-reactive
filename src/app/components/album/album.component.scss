@@ -1,5 +1,5 @@
 .flex-tile-list {
-  height: 99%;
+  height: calc(100% - 60px);
 
   &>ion-list {
     display: flex;

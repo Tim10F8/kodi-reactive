@@ -1,18 +1,5 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-searchbar
-      show-clear-button="always"
-      [debounce]="800"
-      (ionInput)="handleSearch($event)"
-    ></ion-searchbar>
-    <ion-buttons slot="end">
-      <ion-button (click)="goNext()">Button</ion-button>
-    </ion-buttons>
-    <div>Artists:{{ totalArtist }}</div>
-  </ion-toolbar>
-</ion-header>
 <ion-content class="flex-tile-list">
-  <ion-list *ngIf="!selectedArtist">
+  <ion-list>
     <ion-card
       *ngFor="let artist of artists"
       class="tile"
@@ -27,8 +14,21 @@
           artist.label
         }}</ion-card-title>
       </ion-card-header>
-      <ion-card-content>
+      <ion-card-content (click)="getArtist(artist)">
         {{ artist.genre | arrayToString }}
+        <div class="fav-buttons">
+          <div class="fav-btn">
+            <ion-button
+              slot="end"
+              shape="round"
+              size="small"
+              color="dark"
+              (click)="getArtist(artist)"
+            >
+              <ion-icon slot="icon-only" name="play-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
       </ion-card-content>
     </ion-card>
   </ion-list>
@@ -37,29 +37,9 @@
       loadingSpinner="bubbles"
     ></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+  <app-artist-detail
+    [isModalOpen]="isModalOpen"
+    [artist]="selectedArtist"
+    (closeDetail)="deleteSelected()"
+  ></app-artist-detail>
 </ion-content>
-<div *ngIf="selectedArtist">
-  <ion-content [style.height]="'350px'">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title
-          >{{ selectedArtist.label }} -
-          <a (click)="deleteSelected()">x</a></ion-card-title
-        >
-        <ion-card-subtitle>{{
-          selectedArtist.genre | arrayToString
-        }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-img
-          src="{{ selectedArtist.thumbnail | assets : 'scape' }}"
-          alt="{{ selectedArtist.label }}"
-        ></ion-img>
-        <div>
-          <h3>{{ selectedArtist.born }}</h3>
-          <p style="font-size: 0.9em">{{ selectedArtist.description }}</p>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
-</div>

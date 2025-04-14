@@ -47,6 +47,11 @@
 @media (min-width: 1281px) {
 
   /* CSS */
+  .tile {
+    width: 265px;
+    height: 265px;
+    margin: 7px;
+  }
 
 }
 
@@ -58,6 +63,11 @@
 @media (min-width: 1025px) and (max-width: 1280px) {
 
   /* CSS */
+  .tile {
+    width: 240px;
+    height: 240px;
+    margin: 7px;
+  }
 
 }
 

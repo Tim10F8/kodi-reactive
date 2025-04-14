@@ -1,6 +1,13 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { Album } from 'src/app/core/models/album';
 import { PlayerService } from 'src/app/core/services/player.service';
 
 @Component({
@@ -8,18 +15,20 @@ import { PlayerService } from 'src/app/core/services/player.service';
   templateUrl: './artists.component.html',
   styleUrls: ['./artists.component.scss'],
 })
-export class ArtistsComponent  implements OnInit, OnDestroy {
+export class ArtistsComponent implements OnInit, OnDestroy {
   artists: any[] = [];
   start: number = 1;
   end: number = 10;
-  limit: number = 20;
+  limit: number = 30;
   totalArtist: number = 9999;
   searchTerms: string = '';
   subcription: Subscription | null = null;
   selectedArtist: any = null;
+  albums: Album[] = [];
+  isModalOpen: boolean = false;
   @Output() next = new EventEmitter<void>();
 
-  constructor(private playerService: PlayerService) { }
+  constructor(private playerService: PlayerService) {}
   ngOnDestroy(): void {
     if (this.subcription) this.subcription.unsubscribe();
     console.log('ArtistsComponent ngOnDestroy');
@@ -28,16 +37,22 @@ export class ArtistsComponent  implements OnInit, OnDestroy {
   ngOnInit() {
     this.start = 0;
     this.end = this.limit;
-   this.getArtists(this.start, this.end);
+    this.getArtists(this.start, this.end);
   }
 
-  getArtists(start: number, end: number, event: InfiniteScrollCustomEvent | null = null) {
-    console.log('getArtists', start, end,this.searchTerms,event);
-    this.subcription = this.playerService.getArtists(this.start, this.end, this.searchTerms).subscribe((data) => {
-      this.artists = [...this.artists,...data.result.artists];
-      this.totalArtist = data.result.limits.total;
-      if (event) event.target.complete();
-    })
+  getArtists(
+    start: number,
+    end: number,
+    event: InfiniteScrollCustomEvent | null = null
+  ) {
+    console.log('getArtists', start, end, this.searchTerms, event);
+    this.subcription = this.playerService
+      .getArtists(this.start, this.end, this.searchTerms)
+      .subscribe((data) => {
+        this.artists = [...this.artists, ...data.result.artists];
+        this.totalArtist = data.result.limits.total;
+        if (event) event.target.complete();
+      });
   }
 
   onIonInfinite(event: any) {
@@ -47,7 +62,7 @@ export class ArtistsComponent  implements OnInit, OnDestroy {
       (event as InfiniteScrollCustomEvent).target.complete();
       return;
     }
-    
+
     this.getArtists(this.start, this.end, event as InfiniteScrollCustomEvent);
   }
 
@@ -65,11 +80,14 @@ export class ArtistsComponent  implements OnInit, OnDestroy {
     this.playerService.getArtist(artist.artistid).subscribe((data) => {
       console.log('getArtist', data);
       this.selectedArtist = data.result.artistdetails;
-    })
+      this.isModalOpen = true;
+    });
   }
 
   deleteSelected() {
     this.selectedArtist = null;
+    this.albums = [];
+    this.isModalOpen = false;
   }
 
   goNext() {

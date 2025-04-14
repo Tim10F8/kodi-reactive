@@ -14,6 +14,7 @@ import { payloads } from '../core/payloads/payload';
 import { Album } from '../core/models/album';
 import { CurrentPlayListComponent } from '../components/current-play-list/current-play-list.component';
 import { Subscriber, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -37,7 +38,8 @@ export class Tab1Page implements OnInit {
   constructor(
     private plService: PlayerService,
     private wsService: WsPlayerService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private router: Router
   ) {}
   ionViewDidEnter(): void {
     console.log('ionViewDidEnter');
@@ -142,5 +144,21 @@ export class Tab1Page implements OnInit {
   toPlayList(event: any) {
     console.log('toPlayList from tab1', event);
     this.playlistObject?.sendToPlaylist(event);
+  }
+
+  segmentChanged(event: any) {
+    console.log('segmentChanged', event);
+    switch (event.detail.value) {
+      case 'albums':
+        this.router.navigate(['/player/media/albums']);
+        break;
+      case 'artists':
+        this.router.navigate(['/player/media/artists']);
+        break;
+      case 'genres':
+        this.router.navigate(['/player/media/genres']);
+        break;
+    }
+    //this.activeComponent = event.detail.value;
   }
 }

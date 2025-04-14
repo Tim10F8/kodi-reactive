@@ -16,21 +16,44 @@
     <ion-buttons slot="start">
       <ion-menu-button auto-hide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Header Toolbar</ion-title>
     <ion-searchbar></ion-searchbar>
     <ion-buttons slot="end">
-      <ion-button> End </ion-button>
-      <ion-button> End </ion-button>
-      <ion-button> End </ion-button>
+      <ion-button size="small">
+        <ion-icon
+          slot="icon-only"
+          ios="musical-notes"
+          md="musical-notes"
+        ></ion-icon>
+      </ion-button>
+      <ion-button size="small">
+        <ion-icon slot="icon-only" ios="tv" md="tv"></ion-icon>
+      </ion-button>
+      <ion-button size="small">
+        <ion-icon
+          slot="icon-only"
+          ios="logo-apple"
+          md="settings-sharp"
+        ></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content id="main-content" [fullscreen]="true">
-  <ion-header collapse="condense"> </ion-header>
   <div class="canvas-player">
     <div class="flex-div">
-      <div class="selector-category">
+      <div class="selector-category" value="albums">
+        <ion-segment (ionChange)="segmentChanged($event)">
+          <ion-segment-button value="albums">
+            <ion-label>Albums</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="artists">
+            <ion-label>Artists</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="genres">
+            <ion-label>Genres</ion-label>
+          </ion-segment-button>
+        </ion-segment>
         <router-outlet></router-outlet>
       </div>
     </div>
