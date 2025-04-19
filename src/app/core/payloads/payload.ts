@@ -79,6 +79,21 @@ export const payloads = {
     id: '1712437435620',
     params: {
       artistid: 23,
+      properties: [
+        'thumbnail',
+        'mood',
+        'genre',
+        'style',
+        'fanart',
+        'born',
+        'formed',
+        'description',
+        'died',
+        'disbanded',
+        'yearsactive',
+        'instrument',
+        'musicbrainzartistid',
+      ],
     },
   },
   artistDetaill: {
@@ -268,9 +283,10 @@ export const payloads = {
   },
 };
 
-export class PayloadRequest {
-  payload: JsonRpcRequest;
-  applicationProperties: string[][] = [['volume', 'muted', 'version', 'name']];
+export class PayloadRequest implements JsonRpcRequest {
+  static applicationProperties: string[][] = [
+    ['volume', 'muted', 'version', 'name'],
+  ];
   static artistProperties: string[] = [
     'thumbnail',
     'mood',
@@ -286,7 +302,7 @@ export class PayloadRequest {
     'instrument',
     'musicbrainzartistid',
   ];
-  albumProperties: string[] = [
+  static albumProperties: string[] = [
     'thumbnail',
     'playcount',
     'artistid',
@@ -303,16 +319,35 @@ export class PayloadRequest {
     'type',
     'theme',
   ];
+  static ArtistSongsProperties: string[] = [
+    'title',
+    'file',
+    'thumbnail',
+    'artist',
+    'artistid',
+    'album',
+    'albumid',
+    'lastplayed',
+    'track',
+    'year',
+    'duration',
+  ];
+  jsonrpc: string;
+  method: string;
+  params: any;
+  id: number;
   constructor(method: string, params: any, id: number) {
-    this.payload = {
-      jsonrpc: environment.jsonrpcVersion,
-      method: method,
-      params: params,
-      id: id,
-    };
+    this.jsonrpc = environment.jsonrpcVersion;
+    this.method = method;
+    this.params = params;
+    this.id = id;
   }
   static create(method: string, params: JsonRpcRequestParams | any[]) {
     const id = new Date().getTime();
     return new PayloadRequest(method, params, id);
+  }
+  toJson() {
+    console.log('PayloadRequest toJson', JSON.stringify(this));
+    return JSON.stringify(this);
   }
 }

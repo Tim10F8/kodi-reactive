@@ -6,12 +6,12 @@ export interface JsonRpcRequest {
 }
 
 export interface JsonRpcRequestParams {
-  artistid: number;
-  albumid: number;
-  properties?: string[];
-  sort?: JssonRpcSortParams;
-  limits?: any;
-  filter?: any;
+  artistid?: number;
+  albumid?: number;
+  properties?: any;
+  // sort?: JssonRpcSortParams;
+  // limits?: any;
+  // filter?: any;
   albumartistsonly?: boolean;
   item?: any;
   playlistid?: number;
