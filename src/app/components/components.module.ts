@@ -13,6 +13,7 @@ import { AlbumDetailComponent } from './album-detail/album-detail.component';
 import { GenresComponent } from './genres/genres.component';
 import { AlbumSquareComponent } from './album-square/album-square.component';
 import { ArtistDetailComponent } from './artist-detail/artist-detail.component';
+import { TrackItemComponent } from './track-item/track-item.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ArtistDetailComponent } from './artist-detail/artist-detail.component';
     AlbumDetailComponent,
     GenresComponent,
     AlbumSquareComponent,
+    TrackItemComponent,
   ],
   exports: [
     SoundComponent,
@@ -38,6 +40,7 @@ import { ArtistDetailComponent } from './artist-detail/artist-detail.component';
     AlbumDetailComponent,
     GenresComponent,
     AlbumSquareComponent,
+    TrackItemComponent,
   ],
   imports: [IonicModule, CommonModule, PipesModule, DirectivesModule],
   providers: [],

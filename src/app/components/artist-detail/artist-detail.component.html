@@ -7,49 +7,58 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="album-frame">
-    <div class="album-col col-30 image-col">
-      <ion-img
-        class="img-canvas"
-        src="{{ artist?.thumbnail | assets : 'scape' }}"
-        alt="{{ artist?.label }}"
-      ></ion-img>
-      <span>{{ artist?.yearsactive | arrayToString }}</span
-      ><br />
-      <span>{{ artist?.style | arrayToString }}</span>
-    </div>
-    <div class="album-col col-70">
-      <h2 class="main-subtitle">{{ artist?.genre | arrayToString }}</h2>
-      <div class="album-info">
-        <div class="scroll-info">
-          <p>{{ artist?.description }}</p>
+  <div class="artist-frame">
+    <div class="artist-info">
+      <div class="album-col col-30 image-col">
+        <ion-img
+          class="img-canvas"
+          src="{{ artist?.thumbnail | assets : 'scape' }}"
+          alt="{{ artist?.label }}"
+        ></ion-img>
+        <span>{{ artist?.yearsactive | arrayToString }}</span
+        ><br />
+        <span>{{ artist?.style | arrayToString }}</span
+        ><br />
+        <span>{{ artist?.genre | arrayToString }}</span>
+      </div>
+      <div class="album-col col-70">
+        <div class="album-info">
+          <div class="scroll-info">
+            <p>{{ artist?.description }}</p>
+          </div>
         </div>
       </div>
     </div>
     <div class="tracks">
       <ion-list>
-        <ion-item *ngFor="let track of albums">
-          <ion-label>{{ track.label }}</ion-label>
-          <ion-note>{{ track.genre }}</ion-note>
-          <ion-buttons slot="end">
-            <ion-button>
-              <ion-icon slot="icon-only" size="small" name="add"></ion-icon>
-            </ion-button>
-            <ion-button>
-              <ion-icon
-                slot="icon-only"
-                size="small"
-                name="duplicate-outline"
-              ></ion-icon>
-            </ion-button>
-            <!--<ion-button (click)="sendToPlayList(track)">
-                  <ion-icon
-                    slot="icon-only"
-                    size="small"
-                    name="play"
-                  ></ion-icon>
-                </ion-button>-->
-          </ion-buttons>
+        <ion-item *ngFor="let album of albums">
+          <div class="img-cover">
+            <ion-img
+              class="img-canvas"
+              src="{{ album.albumThumbnail | assets : 'scape' }}"
+              alt="{{ album.albumLabel }}"
+            ></ion-img>
+            <p class="album-title">{{ album.albumLabel }}</p>
+            <ion-buttons slot="end">
+              <ion-button>
+                <ion-icon slot="icon-only" size="small" name="add"></ion-icon>
+              </ion-button>
+              <ion-button>
+                <ion-icon
+                  slot="icon-only"
+                  size="small"
+                  name="duplicate-outline"
+                ></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </div>
+          <div class="tracks-holder">
+            <ul class="track-list">
+              <li *ngFor="let track of album.songs">
+                {{ track.label }}
+              </li>
+            </ul>
+          </div>
         </ion-item>
       </ion-list>
     </div>

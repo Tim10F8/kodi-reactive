@@ -1,0 +1,31 @@
+.artist-frame {
+    .img-cover {
+        width: 25%;
+        border-radius: 8px;
+    }
+
+    .artist-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: flex-start;
+    }
+
+    .col-30 {
+        width: 30%;
+        margin: 0 auto;
+        padding: 4px;
+    }
+
+    .col-70 {
+        width: 70%;
+        margin: 0 auto;
+        padding: 4px;
+    }
+
+    .track-list {
+        height: 80%;
+        overflow: hidden scroll;
+
+    }
+}
