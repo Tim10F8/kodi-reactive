@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { Album } from 'src/app/core/models/album';
 import { Artist } from 'src/app/core/models/artist';
 import { Track } from 'src/app/core/models/track';
@@ -11,10 +12,10 @@ import { Track } from 'src/app/core/models/track';
 export class ArtistDetailComponent {
   @Input() isModalOpen: boolean = true;
   @Input() artist: Artist | null = null;
-  @Input() albums: Album[] = [];
+  @Input() albums: any[] = [];
   @Output() closeDetail = new EventEmitter<void>();
   @Output() sendToPlaylist = new EventEmitter<Track>();
-  constructor() {}
+  constructor(private modalCtrl: ModalController) {}
   sendToPlayList(track: Track) {
     console.log('sendToPlayList', track);
     this.sendToPlaylist.emit(track);
@@ -27,6 +28,6 @@ export class ArtistDetailComponent {
 
   cancel() {
     console.log('cancel');
-    this.closeDetail.emit();
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 }

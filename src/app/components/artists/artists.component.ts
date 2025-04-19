@@ -115,7 +115,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
   }
 
   getArtist(artist: any) {
-    console.log('getArtist data', artist);
+    console.log('getArtist data in function', artist);
 
     const artistData = this.playerService.getArtist(artist.artistid);
     const artistAlbums = this.playerService.getArtistAlbums(artist.artistid);
@@ -125,7 +125,7 @@ export class ArtistsComponent implements OnInit, OnDestroy {
     })
       .pipe(
         map(({ artistData, artistAlbums }) => {
-          console.log('getArtist', artistData);
+          console.log('getArtist from map', artistData);
           this.selectedArtist = artistData.result.artistdetails;
           this.albums = this.groupSongsByAlbumId(artistAlbums);
           console.log('grouped albums', this.albums);
@@ -133,8 +133,8 @@ export class ArtistsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (data) => {
-          console.log('getArtist data', data);
-          this.isModalOpen = true;
+          console.log('getArtist data in subsc', data);
+          this.openModal();
         },
         error: (error) => {
           console.error('Error fetching artist data:', error);
@@ -184,13 +184,15 @@ export class ArtistsComponent implements OnInit, OnDestroy {
 
     return result;
   }
-  openModal() {
+  async openModal() {
     const modal = this.modalCtrl.create({
       component: ArtistDetailComponent,
       componentProps: {
         artist: this.selectedArtist,
         albums: this.albums,
-        isModalOpen: true
-      }
+      },
+      cssClass: 'artist-detail-modal'
+    });
+    (await modal).present();
   }
 }

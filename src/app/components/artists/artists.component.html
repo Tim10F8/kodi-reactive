@@ -10,11 +10,9 @@
       appTileHover
     >
       <ion-card-header>
-        <ion-card-title (click)="getArtist(artist)">{{
-          artist.label
-        }}</ion-card-title>
+        <ion-card-title>{{ artist.label }}</ion-card-title>
       </ion-card-header>
-      <ion-card-content (click)="getArtist(artist)">
+      <ion-card-content>
         {{ artist.genre | arrayToString }}
         <div class="fav-buttons">
           <div class="fav-btn">
@@ -37,9 +35,4 @@
       loadingSpinner="bubbles"
     ></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-  <app-artist-detail
-    [isModalOpen]="isModalOpen"
-    [artist]="selectedArtist"
-    (closeDetail)="deleteSelected()"
-  ></app-artist-detail>
 </ion-content>
