@@ -21,12 +21,12 @@
   [id]="'playlist'"
   [openSlideBar]="isModalOpen"
   [customWidth]="'60%'"
+  [title]="selectedAlbum?.label"
+  (closeSlideBar)="deleteSelected()"
 >
   <app-album-detail
-    [isModalOpen]="isModalOpen"
     [album]="selectedAlbum"
     [tracks]="tracks"
-    (closeDetail)="deleteSelected()"
     (sendToPlaylist)="sendToPlaylist($event)"
   ></app-album-detail>
 </app-lateral-slide>

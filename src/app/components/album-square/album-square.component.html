@@ -6,7 +6,7 @@
   [style.backgroundSize]="'cover'"
   appTileHover
 >
-  <ion-card-content>
+  <ion-card-content class="hover-active">
     <div>
       <h4>{{ album?.label }}</h4>
       <h5>{{ album?.artist | arrayToString }}</h5>
@@ -43,7 +43,7 @@
           color="dark"
           (click)="getAlbum(album)"
         >
-        <ion-icon name="eye-outline"></ion-icon>
+          <ion-icon name="eye-outline"></ion-icon>
         </ion-button>
       </div>
     </div>

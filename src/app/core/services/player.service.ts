@@ -270,13 +270,4 @@ export class PlayerService {
       .post(this.uriMediaPlayer, JSON.stringify(payloads.setSeeek))
       .pipe((result) => result);
   }
-
-  getGenres() {
-    return this.http
-      .post<{ result: any }>(
-        this.uriMediaPlayer,
-        JSON.stringify(payloads.getGenre)
-      )
-      .pipe((result) => result);
-  }
 }

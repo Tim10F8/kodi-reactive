@@ -1,4 +1,4 @@
-<div class="genre-list" *ngIf="!selectedGenre">
+<div class="genre-list">
   <ion-accordion-group>
     <ion-accordion
       *ngFor="let letterGroup of groupedList"
@@ -19,19 +19,16 @@
     </ion-accordion>
   </ion-accordion-group>
 </div>
-<div *ngIf="selectedGenre">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>{{ selectedGenre.label }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div class="albums-list">
-        <app-album-square
-          *ngFor="let album of albums"
-          [album]="album"
-          (back)="back()"
-        ></app-album-square>
-      </div>
-    </ion-card-content>
-  </ion-card>
-</div>
+<app-lateral-slide
+  [id]="'genreDetail'"
+  [openSlideBar]="isSlideBarOpen"
+  [customWidth]="'60%'"
+  [title]="selectedGenre?.label"
+  (closeSlideBar)="deleteSelected()"
+>
+  <app-genre-detail
+    [genre]="selectedGenre"
+    [albums]="albums"
+    [artists]="artists"
+  ></app-genre-detail>
+</app-lateral-slide>

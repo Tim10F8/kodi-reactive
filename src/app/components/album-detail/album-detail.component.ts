@@ -8,26 +8,15 @@ import { Track } from 'src/app/core/models/track';
   styleUrls: ['./album-detail.component.scss'],
 })
 export class AlbumDetailComponent {
-  @Input() isModalOpen: boolean = true;
   @Input() album: Album | null = null;
   @Input() tracks: Track[] = [];
-  @Output() closeDetail = new EventEmitter<void>();
   @Output() sendToPlaylist = new EventEmitter<Track>();
-  constructor() {}
-  deleteSelected() {
-    this.closeDetail.emit();
+  constructor() {
+    console.log('AlbumDetailComponent constructor', this.album);
   }
 
   sendToPlayList(track: Track) {
     console.log('sendToPlayList', track);
     this.sendToPlaylist.emit(track);
-  }
-
-  onWillDismiss(event: any) {
-    this.closeDetail.emit();
-  }
-
-  cancel() {
-    this.closeDetail.emit();
   }
 }

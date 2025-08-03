@@ -1,6 +1,8 @@
 export enum Methods {
   AudioLibraryGetSongs = 'AudioLibrary.GetSongs',
   AudioLibraryGetAlbums = 'AudioLibrary.GetAlbums',
+  AudioLibraryGetGenres = 'AudioLibrary.GetGenres',
+  AudioLibraryGetArtists = 'AudioLibrary.GetArtists',
   PlaylistOnAdd = 'Playlist.OnAdd',
   PlaylistOnRemove = 'Playlist.OnRemove',
   PlaylistOnClear = 'Playlist.OnClear',

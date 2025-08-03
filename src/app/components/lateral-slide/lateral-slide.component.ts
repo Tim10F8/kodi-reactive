@@ -7,6 +7,8 @@ import {
   OnInit,
   SimpleChanges,
   OnChanges,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { SideBarService } from 'src/app/core/services/side-bar.service';
 
@@ -21,8 +23,10 @@ export class LateralSlideComponent implements OnInit, OnDestroy, OnChanges {
   public oldX = 0;
   public grabber = false;
   @Input() id: string = '';
+  @Input() title: string | undefined = '';
   @Input() customWidth: string = '300px';
   @Input() openSlideBar: boolean = false;
+  @Output() closeSlideBar: EventEmitter<any> = new EventEmitter<any>();
 
   private element: any;
 
@@ -81,9 +85,11 @@ export class LateralSlideComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges', changes);
     if (changes['openSlideBar'] && changes['openSlideBar'].currentValue) {
       this.open();
     } else {
+      console.log('deleteSelected');
       this.close();
     }
   }
@@ -103,7 +109,7 @@ export class LateralSlideComponent implements OnInit, OnDestroy, OnChanges {
   }
   public close(): void {
     this.element.classList.remove('sidebar__open');
-    this.openSlideBar = false;
+    this.closeSlideBar.emit();
   }
 
   parseCustomWidth(width: string): number {

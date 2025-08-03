@@ -265,22 +265,6 @@ export const payloads = {
       id: 606,
     },
   ],
-  getGenre: {
-    jsonrpc: '2.0',
-    method: 'AudioLibrary.GetGenres',
-    id: '1727554826167',
-    params: {
-      properties: ['title', 'thumbnail'],
-      limits: {
-        start: 0,
-      },
-      sort: {
-        method: 'title',
-        order: 'ascending',
-        ignorearticle: true,
-      },
-    },
-  },
 };
 
 export class PayloadRequest implements JsonRpcRequest {
@@ -332,6 +316,8 @@ export class PayloadRequest implements JsonRpcRequest {
     'year',
     'duration',
   ];
+
+  static GenreProperties: string[] = ['thumbnail', 'title'];
   jsonrpc: string;
   method: string;
   params: any;

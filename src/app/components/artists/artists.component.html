@@ -11,25 +11,9 @@
       [style.backgroundPosition]="artist.thumbnail ? 'center' : 'top'"
       appTileHover
     >
-      <ion-card-header>
+      <ion-card-header (click)="getArtist(artist)">
         <ion-card-title>{{ artist.label }}</ion-card-title>
       </ion-card-header>
-      <ion-card-content>
-        {{ artist.genre | arrayToString }}
-        <div class="fav-buttons">
-          <div class="fav-btn">
-            <ion-button
-              slot="end"
-              shape="round"
-              size="small"
-              color="dark"
-              (click)="getArtist(artist)"
-            >
-              <ion-icon slot="icon-only" name="play-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
-      </ion-card-content>
     </ion-card>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">

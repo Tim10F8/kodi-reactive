@@ -142,13 +142,13 @@ export class Tab1Page implements OnInit {
     console.log('segmentChanged', event);
     switch (event.detail.value) {
       case 'albums':
-        this.router.navigate(['/player/media/albums']);
+        this.router.navigate(['/collections/albums']);
         break;
       case 'artists':
-        this.router.navigate(['/player/media/artists']);
+        this.router.navigate(['/collections/artists']);
         break;
       case 'genres':
-        this.router.navigate(['/player/media/genres']);
+        this.router.navigate(['/collections/genres']);
         break;
     }
     //this.activeComponent = event.detail.value;

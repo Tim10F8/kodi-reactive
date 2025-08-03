@@ -85,26 +85,20 @@ export class AlbumComponent implements OnInit, OnDestroy {
   }
 
   deleteSelected() {
-    this.selectedAlbum = null;
-    this.tracks = [];
     this.isModalOpen = false;
   }
 
   getTracks(album: Album) {
-    console.log('getTracks', album);
     this.playerService.getTracks(album.albumid).subscribe((data) => {
       this.tracks = data.result.songs;
       this.totalTracks = data.result.limits.total;
       this.isModalOpen = true;
       this.isLoading = false;
+      console.log('getTracks', this.selectedAlbum);
     });
   }
 
   sendToPlaylist(event: any) {
     this.toPlaylist.emit(event);
-  }
-
-  goNext() {
-    this.next.emit();
   }
 }

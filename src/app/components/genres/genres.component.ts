@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Album } from 'src/app/core/models/album';
-import { PlayerService } from 'src/app/core/services/player.service';
+import { Artist } from 'src/app/core/models/artist';
+import { GenreService } from 'src/app/core/services/genre.service';
 
 @Component({
   selector: 'app-genres',
@@ -12,13 +13,15 @@ export class GenresComponent implements OnInit {
   genreList: any[] = [];
   selectedGenre: any;
   albums: Album[] = [];
+  artists: Artist[] = [];
+  isSlideBarOpen: boolean = false;
   groupedList: { letter: string; genres: any[] }[] = [];
-  @Output() next = new EventEmitter<void>();
 
-  constructor(private playerService: PlayerService) {}
+  constructor(private genreService: GenreService) {}
 
   ngOnInit() {
-    this.playerService.getGenres().subscribe((data) => {
+    this.genreService.getGenres().subscribe((data) => {
+      console.log(data, 'data');
       this.genreList = data.result.genres;
       this.totalGenres = data.result.limits.total;
       this.groupedList = this.groupGenresByLetter(this.genreList);
@@ -44,24 +47,29 @@ export class GenresComponent implements OnInit {
     console.log(event);
   }
 
-  goNext() {
-    this.next.emit();
-  }
-
   selectGenre(genre: any) {
     this.selectedGenre = genre;
-    console.log(genre);
-    this.playerService
-      .getAlbums(0, 100, genre.title, 'genre', 'is')
+    this.genreService
+      .getAlbums(0, 100, genre.title, 'is', 'genre')
       .subscribe((data) => {
         this.albums = data.result.albums;
-
-        console.log(this.albums);
+      });
+    this.genreService
+      .getArtists(0, 100, genre.label, 'is', 'genre')
+      .subscribe((data) => {
+        this.artists = data.result.artists;
+        //this.isSlideBarOpen = true;
+        this.isSlideBarOpen = true;
       });
   }
 
   back() {
     this.selectedGenre = null;
     this.albums = [];
+  }
+  deleteSelected() {
+    this.selectedGenre = null;
+    this.albums = [];
+    this.isSlideBarOpen = false;
   }
 }

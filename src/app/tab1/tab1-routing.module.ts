@@ -7,7 +7,7 @@ import { GenresComponent } from '../components/genres/genres.component';
 
 const routes: Routes = [
   {
-    path: 'media',
+    path: 'collections',
     component: Tab1Page,
     children: [
       {
@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'media/albums',
+    redirectTo: 'collections/albums',
     pathMatch: 'full',
   },
 ];
