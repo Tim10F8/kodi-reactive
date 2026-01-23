@@ -17,14 +17,14 @@ import { ComponentsModule } from '../components/components.module';
 import { PipesModule } from '../core/pipes/pipes-module';
 
 @NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    Tab1PageRoutingModule,
-    ComponentsModule,
-    PipesModule,
-  ],
-  declarations: [Tab1Page],
+    imports: [
+        IonicModule,
+        CommonModule,
+        FormsModule,
+        Tab1PageRoutingModule,
+        ComponentsModule,
+        PipesModule,
+        Tab1Page,
+    ],
 })
 export class Tab1PageModule {}
