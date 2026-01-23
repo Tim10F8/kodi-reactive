@@ -1,19 +1,23 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Album } from 'src/app/core/models/album';
 import { ItemPlaylist } from 'src/app/core/models/item-playlist';
 import { PlayerService } from 'src/app/core/services/player.service';
+import { IonicModule } from '@ionic/angular';
+import { NgFor } from '@angular/common';
+import { AssetsPipe } from '../../core/pipes/assets.pipe';
 
 @Component({
     selector: 'app-current-play-list',
     templateUrl: './current-play-list.component.html',
     styleUrls: ['./current-play-list.component.scss'],
-    standalone: false
+    imports: [IonicModule, NgFor, AssetsPipe]
 })
 export class CurrentPlayListComponent {
+  private pService = inject(PlayerService);
+
   @Input() playlist: ItemPlaylist[] = [];
   @Input() currentTrackPosition: number | null | undefined = null;
   @Input() playlistId: number = 0;
-  constructor(private pService: PlayerService) {}
   
   clearList() {
     this.pService.clearPlaylist().subscribe((data) => {

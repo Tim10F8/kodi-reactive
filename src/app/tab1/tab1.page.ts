@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { PlayerService } from '../core/services/player.service';
 import { AppInfo, CurrentTrack } from '../core/models/app-info';
 import { WsPlayerService } from '../core/services/ws-player.service';
@@ -14,16 +8,26 @@ import { payloads } from '../core/payloads/payload';
 import { Album } from '../core/models/album';
 import { CurrentPlayListComponent } from '../components/current-play-list/current-play-list.component';
 import { Subscriber, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { SideBarService } from '../core/services/side-bar.service';
+import { IonicModule } from '@ionic/angular';
+import { CurrentTrackComponent } from '../components/current-track/current-track.component';
+import { PlayerControlComponent } from '../components/player-control/player-control.component';
+import { SoundComponent } from '../components/sound/sound.component';
 
 @Component({
     selector: 'app-tab1',
     templateUrl: 'tab1.page.html',
     styleUrls: ['tab1.page.scss'],
-    standalone: false
+    imports: [IonicModule, CurrentPlayListComponent, RouterOutlet, CurrentTrackComponent, PlayerControlComponent, SoundComponent]
 })
 export class Tab1Page implements OnInit {
+  private plService = inject(PlayerService);
+  private wsService = inject(WsPlayerService);
+  private ref = inject(ChangeDetectorRef);
+  private router = inject(Router);
+  private sidebarService = inject(SideBarService);
+
   volume: number = 0;
   isMute: boolean = false;
   title: string = 'Volume Control';
@@ -37,14 +41,6 @@ export class Tab1Page implements OnInit {
   statusSubcription: Subscription | null = null;
   @ViewChild('playlistObject') playlistObject: CurrentPlayListComponent | null =
     null;
-
-  constructor(
-    private plService: PlayerService,
-    private wsService: WsPlayerService,
-    private ref: ChangeDetectorRef,
-    private router: Router,
-    private sidebarService: SideBarService
-  ) {}
   ionViewDidEnter(): void {
     this.wsService.run();
     this.activeComponent = this.pages[0];

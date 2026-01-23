@@ -1,15 +1,21 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { Album } from 'src/app/core/models/album';
 import { Artist } from 'src/app/core/models/artist';
 import { GenreService } from 'src/app/core/services/genre.service';
+import { IonicModule } from '@ionic/angular';
+import { NgFor } from '@angular/common';
+import { LateralSlideComponent } from '../lateral-slide/lateral-slide.component';
+import { GenreDetailComponent } from '../genre-detail/genre-detail.component';
 
 @Component({
     selector: 'app-genres',
     templateUrl: './genres.component.html',
     styleUrls: ['./genres.component.scss'],
-    standalone: false
+    imports: [IonicModule, NgFor, LateralSlideComponent, GenreDetailComponent]
 })
 export class GenresComponent implements OnInit {
+  private genreService = inject(GenreService);
+
   totalGenres: number = 0;
   genreList: any[] = [];
   selectedGenre: any;
@@ -17,8 +23,6 @@ export class GenresComponent implements OnInit {
   artists: Artist[] = [];
   isSlideBarOpen: boolean = false;
   groupedList: { letter: string; genres: any[] }[] = [];
-
-  constructor(private genreService: GenreService) {}
 
   ngOnInit() {
     this.genreService.getGenres().subscribe((data) => {
