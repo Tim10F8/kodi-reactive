@@ -4,12 +4,13 @@
 
 import { Component, inject, input, output } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { addIcons } from 'ionicons';
-import { play, add } from 'ionicons/icons';
 
 import { Artist, ArtistAlbumGroup } from '../../../domain/entities/artist.entity';
 import { Track } from '@domains/music/track/domain/entities/track.entity';
 import { AddArtistToPlaylistUseCase } from '../../../application/use-cases/add-artist-to-playlist.use-case';
+import { PlayTrackUseCase } from '../../../application/use-cases/play-track.use-case';
+import { AddTrackToPlaylistUseCase } from '../../../application/use-cases/add-track-to-playlist.use-case';
+import { AddAlbumToPlaylistUseCase } from '@domains/music/album';
 import { AssetsPipe } from '@shared/pipes/assets.pipe';
 import { ArrayToStringPipe } from '@shared/pipes/array-to-string.pipe';
 import { SecondsToStringPipe } from '@shared/pipes/seconds-to-string.pipe';
@@ -28,10 +29,9 @@ import { SecondsToStringPipe } from '@shared/pipes/seconds-to-string.pipe';
 })
 export class ArtistDetailComponent {
   private readonly addArtistToPlaylistUseCase = inject(AddArtistToPlaylistUseCase);
-
-  constructor() {
-    addIcons({ play, add });
-  }
+  private readonly playTrackUseCase = inject(PlayTrackUseCase);
+  private readonly addTrackToPlaylistUseCase = inject(AddTrackToPlaylistUseCase);
+  private readonly addAlbumToPlaylistUseCase = inject(AddAlbumToPlaylistUseCase);
 
   // Inputs (signal-based)
   artist = input<Artist | null>(null);
@@ -47,21 +47,31 @@ export class ArtistDetailComponent {
   }
 
   onPlayTrack(track: Track): void {
-    this.trackSelected.emit(track);
+    this.playTrackUseCase.execute(track.songId).subscribe({
+      next: () => this.trackSelected.emit(track),
+      error: error => console.error('Error playing track:', error)
+    });
   }
 
   onAddTrackToPlaylist(track: Track): void {
-    // TODO: Implement add track to playlist via Track use case
-    console.log('Add track to playlist:', track);
+    this.addTrackToPlaylistUseCase.execute(track.songId).subscribe({
+      next: () => console.log('Track added to playlist:', track.title),
+      error: error => console.error('Error adding track to playlist:', error)
+    });
   }
 
   onPlayAlbum(albumId: number): void {
-    this.albumSelected.emit(albumId);
+    this.addAlbumToPlaylistUseCase.execute(albumId, true).subscribe({
+      next: () => this.albumSelected.emit(albumId),
+      error: error => console.error('Error playing album:', error)
+    });
   }
 
   onAddAlbumToPlaylist(albumId: number): void {
-    // TODO: Implement add album to playlist via Album use case
-    console.log('Add album to playlist:', albumId);
+    this.addAlbumToPlaylistUseCase.execute(albumId, false).subscribe({
+      next: () => console.log('Album added to playlist:', albumId),
+      error: error => console.error('Error adding album to playlist:', error)
+    });
   }
 
   onPlayArtist(): void {

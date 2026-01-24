@@ -1,5 +1,29 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { addIcons } from 'ionicons';
+import {
+  play,
+  pause,
+  add,
+  close,
+  closeOutline,
+  playOutline,
+  pauseOutline,
+  shuffleOutline,
+  repeatOutline,
+  beerOutline,
+  chevronForward,
+  chevronBack,
+  search,
+  musicalNotes,
+  disc,
+  people,
+  albums,
+  duplicateOutline,
+  eyeOutline,
+  share,
+  trash
+} from 'ionicons/icons';
 
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
@@ -15,6 +39,31 @@ import {
   play,
   closeOutline
 } from 'ionicons/icons';
+
+// Register icons globally
+addIcons({
+  play,
+  pause,
+  add,
+  close,
+  closeOutline,
+  playOutline,
+  pauseOutline,
+  shuffleOutline,
+  repeatOutline,
+  beerOutline,
+  chevronForward,
+  chevronBack,
+  search,
+  musicalNotes,
+  disc,
+  people,
+  albums,
+  duplicateOutline,
+  eyeOutline,
+  share,
+  trash
+});
 
 if (environment.production) {
   enableProdMode();

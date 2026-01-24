@@ -24,13 +24,13 @@
             [alt]="artist.name"
           />
           <div class="artist-meta">
-            @if (artist.yearsActive?.length) {
+            @if (artist.yearsActive.length) {
               <span>{{ artist.yearsActive | arrayToString }}</span>
             }
-            @if (artist.styles?.length) {
+            @if (artist.styles.length) {
               <span>{{ artist.styles | arrayToString }}</span>
             }
-            @if (artist.genres?.length) {
+            @if (artist.genres.length) {
               <span>{{ artist.genres | arrayToString }}</span>
             }
           </div>
