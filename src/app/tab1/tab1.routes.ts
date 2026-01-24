@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { Tab1Page } from './tab1.page';
 import { AlbumListComponent } from '@domains/music/album';
 import { ArtistsComponent } from '../components/artists/artists.component';
-import { GenresComponent } from '../components/genres/genres.component';
+import { GenreListComponent, GenreDetailComponent } from '@domains/music/genre';
 
 export const TAB1_ROUTES: Routes = [
   {
@@ -19,7 +19,11 @@ export const TAB1_ROUTES: Routes = [
       },
       {
         path: 'genres',
-        component: GenresComponent,
+        component: GenreListComponent,
+      },
+      {
+        path: 'genres/:genreId',
+        component: GenreDetailComponent,
       },
     ],
   },

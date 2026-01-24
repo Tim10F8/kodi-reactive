@@ -7,6 +7,7 @@ import { routes } from './app.routes';
 import { TRACK_PROVIDERS } from '@domains/music/track';
 import { ALBUM_PROVIDERS } from '@domains/music/album';
 import { ARTIST_PROVIDERS } from '@domains/music/artist';
+import { GENRE_PROVIDERS } from '@domains/music/genre';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ...ALBUM_PROVIDERS,
     ...TRACK_PROVIDERS,
-    ...ARTIST_PROVIDERS
+    ...ARTIST_PROVIDERS,
+    ...GENRE_PROVIDERS
   ]
 };
