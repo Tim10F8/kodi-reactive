@@ -1,0 +1,98 @@
+@if (isLoading()) {
+  <ion-progress-bar type="indeterminate" />
+}
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/collections/genres" text="Géneros" />
+    </ion-buttons>
+    <ion-title>{{ genre()?.label }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="genre-detail-content">
+  <!-- Albums Section -->
+  @if (albums().length > 0) {
+    <ion-list-header>
+      <ion-label>Álbumes</ion-label>
+    </ion-list-header>
+    <div class="tiles-container">
+      @for (album of albums(); track album.albumId) {
+        <ion-card
+          class="tile"
+          [style.backgroundImage]="'url(' + (album.thumbnail | assets : 'scape') + '), url(assets/site/no_cover.webp)'"
+          appTileHover
+          (click)="onAlbumClick(album)"
+        >
+          <ion-card-header>
+            <ion-card-title>{{ album.title }}</ion-card-title>
+            <ion-card-subtitle>{{ album.artists.join(', ') }}</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      }
+    </div>
+  }
+
+  <!-- Artists Section -->
+  @if (artists().length > 0) {
+    <ion-list-header>
+      <ion-label>Artistas</ion-label>
+    </ion-list-header>
+    <div class="tiles-container">
+      @for (artist of artists(); track artist.artistId) {
+        <ion-card
+          class="tile"
+          [style.backgroundImage]="'url(' + (artist.thumbnail | assets : 'scape') + '), url(assets/site/no_cover.webp)'"
+          [style.backgroundSize]="artist.thumbnail ? 'auto 100%' : 'cover'"
+          [style.backgroundPosition]="artist.thumbnail ? 'center' : 'top'"
+          appTileHover
+          (click)="onArtistClick(artist)"
+        >
+          <ion-card-header>
+            <ion-card-title>{{ artist.name }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      }
+    </div>
+  }
+
+  <!-- Empty state -->
+  @if (!isLoading() && albums().length === 0 && artists().length === 0) {
+    <div class="empty-state">
+      <ion-icon name="musical-notes-outline" />
+      <p>No hay contenido para este género</p>
+    </div>
+  }
+</ion-content>
+
+<!-- Album Detail Panel -->
+<app-lateral-slide
+  [id]="'genreAlbumDetail'"
+  [openSlideBar]="isPanelOpen() && panelType() === 'album'"
+  [customWidth]="'60%'"
+  (closeSlideBar)="onClosePanel()"
+>
+  @if (selectedAlbum()) {
+    <app-album-detail
+      [album]="selectedAlbum()!"
+      [tracks]="albumTracks()"
+    />
+  }
+</app-lateral-slide>
+
+<!-- Artist Detail Panel -->
+<app-lateral-slide
+  [id]="'genreArtistDetail'"
+  [openSlideBar]="isPanelOpen() && panelType() === 'artist'"
+  [customWidth]="'60%'"
+  (closeSlideBar)="onClosePanel()"
+>
+  @if (selectedArtist()) {
+    <app-artist-detail
+      [artist]="selectedArtist()"
+      [albums]="artistAlbums()"
+      (closeDetail)="onClosePanel()"
+    />
+  }
+</app-lateral-slide>
