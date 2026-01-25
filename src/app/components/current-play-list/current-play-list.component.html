@@ -7,6 +7,9 @@
     </ion-buttons>
     <ion-title size="small">{{ playlist.length }} tracks</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="savePlaylist()" color="primary">
+        <ion-icon slot="icon-only" name="bookmark"></ion-icon>
+      </ion-button>
       <ion-button (click)="clearList()" color="danger">
         <ion-icon slot="icon-only" name="trash"></ion-icon>
       </ion-button>

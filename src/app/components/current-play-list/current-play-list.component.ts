@@ -1,13 +1,14 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
-import { IonicModule, ItemReorderEventDetail } from '@ionic/angular';
+import { IonicModule, ItemReorderEventDetail, AlertController } from '@ionic/angular';
 import { NgFor, NgIf } from '@angular/common';
 import { AssetsPipe } from '../../core/pipes/assets.pipe';
-import { PlaylistItem } from '@domains/music/playlist';
 import {
+  PlaylistItem,
   ClearPlaylistUseCase,
   RemovePlaylistItemUseCase,
   ReorderPlaylistUseCase,
-  PlayPlaylistItemUseCase
+  PlayPlaylistItemUseCase,
+  SavePlaylistUseCase
 } from '@domains/music/playlist';
 
 @Component({
@@ -17,10 +18,12 @@ import {
     imports: [IonicModule, NgFor, NgIf, AssetsPipe]
 })
 export class CurrentPlayListComponent {
+  private readonly alertController = inject(AlertController);
   private readonly clearPlaylistUseCase = inject(ClearPlaylistUseCase);
   private readonly removePlaylistItemUseCase = inject(RemovePlaylistItemUseCase);
   private readonly reorderPlaylistUseCase = inject(ReorderPlaylistUseCase);
   private readonly playPlaylistItemUseCase = inject(PlayPlaylistItemUseCase);
+  private readonly savePlaylistUseCase = inject(SavePlaylistUseCase);
 
   @Input() playlist: PlaylistItem[] = [];
   @Input() currentTrackPosition: number | null | undefined = null;
@@ -60,22 +63,18 @@ export class CurrentPlayListComponent {
     const fromPosition = event.detail.from;
     const toPosition = event.detail.to;
 
-    // Optimistically update UI
     const movedItem = this.playlist[fromPosition];
     this.playlist.splice(fromPosition, 1);
     this.playlist.splice(toPosition, 0, movedItem);
 
-    // Complete the reorder in UI first
     event.detail.complete();
 
-    // Sync with Kodi
     this.reorderPlaylistUseCase.execute(fromPosition, toPosition, this.playlistId).subscribe({
       next: () => {
         this.playlistChanged.emit();
       },
       error: (err) => {
         console.error('Failed to reorder playlist:', err);
-        // Revert UI change on error - reload will be handled by parent component
         this.playlistChanged.emit();
       }
     });
@@ -83,5 +82,33 @@ export class CurrentPlayListComponent {
 
   toggleReorder() {
     this.reorderEnabled = !this.reorderEnabled;
+  }
+
+  async savePlaylist() {
+    const alert = await this.alertController.create({
+      header: 'Guardar Playlist',
+      inputs: [
+        {
+          name: 'name',
+          type: 'text',
+          placeholder: 'Nombre de la playlist'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Guardar',
+          handler: (data) => {
+            if (data.name && data.name.trim()) {
+              this.savePlaylistUseCase.execute(data.name.trim(), this.playlist);
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }
