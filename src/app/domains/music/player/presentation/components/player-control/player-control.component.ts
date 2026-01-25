@@ -2,7 +2,7 @@
 // PRESENTATION - Player Control Component
 // ==========================================================================
 
-import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { RangeCustomEvent, IonicModule } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -27,6 +27,7 @@ import { ZeroPaddingPipe } from 'src/app/core/pipes/zero-padding.pipe';
 })
 export class PlayerControlComponent implements OnInit, OnDestroy {
   private readonly wsAdapter = inject(PlayerWebSocketAdapter);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly playPauseUseCase = inject(PlayPauseUseCase);
   private readonly seekUseCase = inject(SeekUseCase);
   private readonly nextTrackUseCase = inject(NextTrackUseCase);
@@ -44,6 +45,7 @@ export class PlayerControlComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(state => {
         this.state = state;
+        this.cdr.markForCheck();
       });
   }
 
