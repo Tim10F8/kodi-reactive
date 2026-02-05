@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { AppShellComponent } from './app-shell.component';
 
@@ -7,10 +7,10 @@ describe('AppShellComponent', () => {
   let component: AppShellComponent;
   let fixture: ComponentFixture<AppShellComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
-      declarations: [ AppShellComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [AppShellComponent],
+      providers: [provideZonelessChangeDetection()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppShellComponent);
